@@ -6,10 +6,6 @@ var {conn, sql} = require('./connect');
 var userRoute = require('./Routes/customer.route')
 var productRoute = require('./Routes/product.route')
 
-//view engine
-app.set('view engine','pug');
-app.set('views','./views')
-
 app.use(bodyParser.json());
 //routes
 app.get('/',async (req,res)=>{
@@ -24,7 +20,7 @@ app.get('/',async (req,res)=>{
 })
 //routes
 app.use('/user',userRoute);
-app.use('/products',productRoute);
+app.use('/product',productRoute);
 //open gate
 app.listen(3000, function(){
     console.log("Server is listening at port 3000...")
