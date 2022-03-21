@@ -54,9 +54,16 @@ Products = []
 for link in prodLinks:
     driver.get(link)
     time.sleep(1)
-    prod = []
+
+    prod = {}
+
     Name = driver.find_element(By.CLASS_NAME,'product-name').text
     Price = driver.find_element(By.CLASS_NAME,'product-price').text
+    Images = []
+    img_el = driver.find_elements(By.CSS_SELECTOR,'.slick-track >.slick-slide > div > .thumb-img > img')[:3]
+    for image in img_el:
+        Images.append(image.get_attribute('src'))
+
     # prodRating = driver.find_element(By.CLASS_NAME,'product-name')
 
     script = "document.querySelector('#content-product').scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'});"
@@ -71,41 +78,41 @@ for link in prodLinks:
     Count = ''
     Component = ''
     UserGuide = ''
+
     for i in tableRows:
         if ('Thương hiệu' in i.text):
             Brand = i.text.replace('Thương hiệu ','')
-            prod.append(Brand)
             continue
         if ('Xuất xứ sản phẩm' in i.text):
             Origin = i.text.replace('Xuất xứ sản phẩm ','')
-            prod.append(Origin)
             continue
         if ('Kích cỡ' in i.text):
             Size = i.text.replace('Kích cỡ (size) ','')
-            prod.append(Size)
             continue
         if ('Số miếng' in i.text):
             Count = i.text.replace('Số miếng ','')
-            prod.append(Count)
             continue
         if ('Thành phần' in i.text):
             Component = i.text.replace('Thành phần ','')
-            prod.append(Component)
             continue
         if ('Hướng dẫn sử dụng' in i.text):
             UserGuide = i.text.replace('Hướng dẫn sử dụng ','')
-            prod.append(UserGuide)
             continue
     Description = driver.find_element(By.CLASS_NAME,'content-product').text
-    prod.append(Description)
-   
-    # brandOrigin = tableRows[1].text
-    # Origin = tableRows[2].text
-    # Size = tableRows[3].text
-    # Count = tableRows[4].text
-    # Component = tableRows[5].text
+    
+    prod['Name'] = Name
+    prod['Price'] = Price
+    prod['Images'] = Images
+    prod['Brand'] = Brand
+    prod['Origin'] = Origin
+    prod['Size'] = Size
+    prod['Count'] = Count
+    prod['Component'] = Component 
+    prod['UserGuide'] = UserGuide 
+    prod['Description'] = Description 
 
     Products.append(prod)
+    
 for i in Products:
     print(i)
 driver.close()
