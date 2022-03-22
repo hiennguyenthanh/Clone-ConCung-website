@@ -98,6 +98,9 @@ for link in prodLinks:
         if ('Hướng dẫn sử dụng' in i.text):
             UserGuide = i.text.replace('Hướng dẫn sử dụng ','')
             continue
+    script ="document.querySelector('.text-center > .btn').click();"
+    driver.execute_script(script)
+    time.sleep(1)
     Description = driver.find_element(By.CLASS_NAME,'content-product').text
     
     prod['Name'] = Name
@@ -111,8 +114,12 @@ for link in prodLinks:
     prod['UserGuide'] = UserGuide 
     prod['Description'] = Description 
 
+
     Products.append(prod)
     
-for i in Products:
-    print(i)
+f = open('Products/Diapers.txt','w')
+f.write(Products)
+f.close()
+
 driver.close()
+
